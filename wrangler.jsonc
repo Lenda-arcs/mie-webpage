@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mie-webpage",
+  "compatibility_date": "2026-06-14",
+  // Statisches Astro-Build (dist/) als Worker-Assets ausliefern.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

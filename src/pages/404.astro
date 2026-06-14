@@ -1,0 +1,17 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+import { site } from "../content/site";
+---
+
+<Layout title={`Seite nicht gefunden – ${site.name}`}>
+  <Container class="flex min-h-[70svh] flex-col items-center justify-center py-20 text-center">
+    <p class="num-outline text-7xl font-extrabold tracking-tight md:text-8xl">404</p>
+    <h1 class="mt-6 text-3xl font-extrabold tracking-tight md:text-4xl">Seite nicht gefunden</h1>
+    <p class="mt-4 text-muted">Diese Seite gibt es leider nicht (mehr).</p>
+    <a href="/" class="group mt-8 inline-flex items-center gap-3 bg-accent px-8 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-accent-dark">
+      Zur Startseite
+      <span class="transition-transform group-hover:translate-x-1">→</span>
+    </a>
+  </Container>
+</Layout>
