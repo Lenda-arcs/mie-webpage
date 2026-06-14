@@ -20,7 +20,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* offset für sticky Header bei Sprungmarken */
+  scroll-padding-top: 4rem; /* Fallback – exakter Wert wird per JS aus der Header-Höhe gesetzt */
 }
 
 /* Große, outline-only Ziffern (z.B. 01, 02, 03) */

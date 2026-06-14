@@ -97,6 +97,14 @@ const nav = [
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
+  // Sprungmarken exakt unter dem Header andocken (kein Rest der vorherigen Section sichtbar).
+  const setScrollOffset = () => {
+    if (header) document.documentElement.style.scrollPaddingTop = `${header.offsetHeight}px`;
+  };
+  setScrollOffset();
+  window.addEventListener("resize", setScrollOffset);
+  window.addEventListener("load", setScrollOffset);
+
   // Scrollspy: aktive Section in der Navigation markieren (nur wo Sections existieren).
   const navLinks = document.querySelectorAll<HTMLAnchorElement>("[data-nav]");
   const setActive = (id: string) => {
