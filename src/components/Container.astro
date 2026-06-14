@@ -1,0 +1,20 @@
+---
+// Zentraler Layout-Container: legt die maximale Breite + Seitenränder fest.
+// Breite hier EINMAL ändern -> wirkt überall.
+//   size="default" -> normaler Inhalt
+//   size="narrow"  -> schmaler Lesetext (z.B. Fließtext)
+interface Props {
+  size?: "default" | "narrow";
+  class?: string;
+}
+const { size = "default", class: className = "" } = Astro.props;
+
+const widths = {
+  default: "max-w-5xl",
+  narrow: "max-w-2xl",
+};
+---
+
+<div class:list={["mx-auto w-full px-6 sm:px-8", widths[size], className]}>
+  <slot />
+</div>

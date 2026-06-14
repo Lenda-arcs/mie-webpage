@@ -1,0 +1,116 @@
+@import "@fontsource-variable/mulish";
+@import "tailwindcss";
+
+/* ── Design tokens ─────────────────────────────────────────────
+   Warm-editorial: blush/coral mit Blau als Action-Farbe, Mulish (Avenir-like). */
+@theme {
+  --font-sans: "Mulish Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #faf7f4;        /* warmes Off-White – Seitenhintergrund */
+  --color-surface: #ffffff;   /* weiße Sections / Karten */
+  --color-ink: #1b2330;       /* Text */
+  --color-muted: #7a6f66;     /* warmer Sekundärtext (Taupe) */
+  --color-accent: #2d5bff;    /* Kobaltblau – Buttons & Links */
+  --color-accent-dark: #1f44d6;
+  --color-blush: #fbe4ec;     /* zartes Rosa – Flächen/Platzhalter */
+  --color-coral: #cf4f86;     /* kräftiges Rosa – femininer Akzent (Labels, Links) */
+  --color-photo: #f7c9dc;     /* Rosa aus dem Hero-Foto (für die Form dahinter) */
+  --color-line: #ece4dd;      /* warme Trennlinien */
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* offset für sticky Header bei Sprungmarken */
+}
+
+/* Große, outline-only Ziffern (z.B. 01, 02, 03) */
+.num-outline {
+  -webkit-text-stroke: 2px var(--color-coral);
+  color: transparent;
+}
+
+/* Header: am Seitenanfang transparent/randlos, beim Scrollen mit Rahmen + Blur */
+#site-header {
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+#site-header.is-scrolled {
+  background-color: rgba(250, 247, 244, 0.85);
+  border-bottom-color: var(--color-line);
+  backdrop-filter: blur(8px);
+}
+
+/* Sanfter Scroll-Hinweis im Hero */
+@keyframes scroll-nudge {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+.scroll-cue {
+  animation: scroll-nudge 2.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
+}
+
+/* Aktiver Navigationspunkt (Scrollspy) */
+.nav-link.is-active {
+  color: var(--color-coral);
+}
+
+/* Mobile-Overlay-Menü: von rechts einschieben + gestaffelte Links */
+#mobile-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(100%);
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#mobile-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+#mobile-overlay li a {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.45s ease, transform 0.45s ease, color 0.2s ease;
+}
+#mobile-overlay.is-open li:nth-child(1) a { transition-delay: 0.12s; }
+#mobile-overlay.is-open li:nth-child(2) a { transition-delay: 0.18s; }
+#mobile-overlay.is-open li:nth-child(3) a { transition-delay: 0.24s; }
+#mobile-overlay.is-open li:nth-child(4) a { transition-delay: 0.30s; }
+#mobile-overlay.is-open li a {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  #mobile-overlay,
+  #mobile-overlay li a {
+    transition: opacity 0.15s ease;
+    transform: none;
+  }
+}
+
+/* Scroll-Reveal: Elemente faden sanft ein, sobald sie sichtbar werden */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}

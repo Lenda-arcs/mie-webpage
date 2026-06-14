@@ -1,0 +1,42 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+import { site } from "../content/site";
+---
+
+<Layout title={`Datenschutz – ${site.name}`}>
+  <Container size="narrow" class="py-20">
+    <a href="/" class="text-sm text-accent hover:underline">← Zurück</a>
+    <h1 class="mt-6 text-4xl font-extrabold tracking-tight">Datenschutzerklärung</h1>
+
+    <div class="mt-8 space-y-6 text-muted">
+      <div>
+        <h2 class="text-lg font-bold text-ink">1. Verantwortlicher</h2>
+        <p class="mt-2">{site.name}, E-Mail: {site.footer.email}</p>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-ink">2. Hosting</h2>
+        <p class="mt-2">
+          Diese Website wird bei IONOS SE gehostet. Beim Aufruf werden technisch
+          notwendige Daten (z.&nbsp;B. IP-Adresse) in Server-Logs verarbeitet.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-ink">3. Kontaktformular</h2>
+        <p class="mt-2">
+          Über das Kontaktformular übermittelte Daten (Name, E-Mail, Nachricht)
+          werden über den Dienst Web3Forms verarbeitet und ausschließlich zur
+          Bearbeitung deiner Anfrage genutzt.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-ink">4. Cookies & Tracking</h2>
+        <p class="mt-2">
+          Diese Website verwendet keine Cookies und kein Tracking / keine
+          Analyse-Tools.
+        </p>
+      </div>
+      <p class="text-sm">Diese Vorlage ersetzt keine Rechtsberatung – bitte vor Veröffentlichung prüfen lassen.</p>
+    </div>
+  </Container>
+</Layout>

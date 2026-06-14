@@ -1,0 +1,118 @@
+---
+import Container from "./Container.astro";
+import { site } from "../content/site";
+
+// home=true  -> Anker auf derselben Seite (#...), Scrollspy aktiv
+// home=false -> Anker zeigen auf die Startseite (/#...)
+interface Props {
+  home?: boolean;
+}
+const { home = false } = Astro.props;
+const prefix = home ? "" : "/";
+
+const nav = [
+  { label: "Leistungen", id: "leistungen" },
+  { label: "Über mich", id: "ueber-mich" },
+  { label: "Arbeit", id: "arbeit" },
+  { label: "Kontakt", id: "kontakt" },
+];
+---
+
+<header id="site-header" class="sticky top-0 z-50">
+  <Container class="flex items-center justify-between py-4">
+    <a href={home ? "#top" : "/"} class="text-lg font-extrabold tracking-tight">{site.name}</a>
+
+    <!-- Desktop-Navigation -->
+    <nav class="hidden sm:block">
+      <ul class="flex gap-8 text-xs font-bold uppercase tracking-[0.12em] text-muted">
+        {nav.map((item) => (
+          <li>
+            <a href={`${prefix}#${item.id}`} data-nav={item.id} class="nav-link transition-colors hover:text-coral">{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Mobile: Menü-Button -->
+    <button id="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" class="flex h-10 w-10 items-center justify-center sm:hidden">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="7" x2="21" y2="7" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="17" x2="21" y2="17" />
+      </svg>
+    </button>
+  </Container>
+</header>
+
+<!-- Mobile: Vollbild-Overlay (dunkel, von rechts) -->
+<div id="mobile-overlay" class="fixed inset-0 z-[60] flex flex-col bg-ink text-white sm:hidden">
+  <Container class="flex items-center justify-between py-4">
+    <span class="text-lg font-extrabold tracking-tight">{site.name}</span>
+    <button id="menu-close" type="button" aria-label="Menü schließen" class="flex h-10 w-10 items-center justify-center">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="5" y1="5" x2="19" y2="19" /><line x1="19" y1="5" x2="5" y2="19" />
+      </svg>
+    </button>
+  </Container>
+
+  <Container class="flex flex-1 flex-col justify-center">
+    <ul class="space-y-4">
+      {nav.map((item, i) => (
+        <li>
+          <a href={`${prefix}#${item.id}`} data-menu-link data-nav={item.id} class="nav-link group/link flex items-baseline gap-4 text-5xl font-extrabold tracking-tight transition-colors hover:text-coral">
+            <span class="w-7 text-base font-bold text-coral transition-transform duration-300 group-hover/link:translate-x-1">0{i + 1}</span>
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </Container>
+
+  <Container class="flex items-center gap-8 border-t border-white/15 py-8 text-xs font-bold uppercase tracking-[0.14em] text-white/60">
+    <a href={`mailto:${site.footer.email}`} class="hover:text-coral">Email</a>
+    <a href={site.footer.linkedin} target="_blank" rel="noopener" class="hover:text-coral">LinkedIn</a>
+  </Container>
+</div>
+
+<script>
+  // Mobile-Overlay öffnen/schließen.
+  const menuBtn = document.getElementById("menu-btn");
+  const menuClose = document.getElementById("menu-close");
+  const overlay = document.getElementById("mobile-overlay");
+  const setMenu = (open: boolean) => {
+    overlay?.classList.toggle("is-open", open);
+    menuBtn?.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  menuBtn?.addEventListener("click", () => setMenu(true));
+  menuClose?.addEventListener("click", () => setMenu(false));
+  document.querySelectorAll("[data-menu-link]").forEach((link) => {
+    link.addEventListener("click", () => setMenu(false));
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setMenu(false);
+  });
+
+  // Header verschmilzt am Seitenanfang mit dem Hero – Rahmen/Blur erst beim Scrollen.
+  const header = document.getElementById("site-header");
+  const onScroll = () => header?.classList.toggle("is-scrolled", window.scrollY > 12);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Scrollspy: aktive Section in der Navigation markieren (nur wo Sections existieren).
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>("[data-nav]");
+  const setActive = (id: string) => {
+    navLinks.forEach((l) => l.classList.toggle("is-active", l.dataset.nav === id));
+  };
+  const ids = ["leistungen", "ueber-mich", "arbeit", "kontakt"];
+  const targets = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+  if (targets.length) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+    );
+    targets.forEach((t) => spy.observe(t));
+  }
+</script>

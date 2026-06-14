@@ -1,0 +1,40 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Mie Lene Heesch – Content & Redaktion rund um Gesundheit und Ernährung." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <script>
+      // Scroll-Reveal: blendet [data-reveal]-Elemente ein, sobald sie in den Viewport kommen.
+      const els = document.querySelectorAll("[data-reveal]");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      els.forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

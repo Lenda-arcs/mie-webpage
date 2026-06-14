@@ -1,0 +1,29 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+import { site } from "../content/site";
+---
+
+<Layout title={`Impressum – ${site.name}`}>
+  <Container size="narrow" class="py-20">
+    <a href="/" class="text-sm text-accent hover:underline">← Zurück</a>
+    <h1 class="mt-6 text-4xl font-extrabold tracking-tight">Impressum</h1>
+
+    <div class="mt-8 space-y-4 text-muted">
+      <p>Angaben gemäß § 5 TMG</p>
+      <p>
+        {site.name}<br />
+        Straße Hausnummer<br />
+        PLZ Ort
+      </p>
+      <p>
+        <strong class="text-ink">Kontakt:</strong><br />
+        E-Mail: {site.footer.email}
+      </p>
+      <p>
+        <strong class="text-ink">Verantwortlich i.S.d. § 18 Abs. 2 MStV:</strong><br />
+        {site.name}, Anschrift wie oben
+      </p>
+    </div>
+  </Container>
+</Layout>

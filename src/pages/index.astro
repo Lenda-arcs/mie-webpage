@@ -1,0 +1,239 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Container from "../components/Container.astro";
+import Header from "../components/Header.astro";
+import { site } from "../content/site";
+---
+
+<Layout title={`${site.name} – Content & Redaktion`}>
+  <Header home={true} />
+
+  <main id="top">
+    <!-- ── Hero ───────────────────────────────────────────── -->
+    <section class="relative flex min-h-[calc(100svh-4.25rem)] items-center py-10 md:py-12">
+      <Container class="grid w-full items-center gap-10 md:grid-cols-2 md:gap-12">
+        <div class="order-2 md:order-1">
+          <p class="text-sm font-bold uppercase tracking-[0.18em] text-coral">{site.hero.kicker}</p>
+          <h1 class="mt-5 text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl md:text-7xl">
+            {site.hero.headline}
+          </h1>
+          <p class="mt-6 max-w-md text-lg leading-relaxed text-muted md:mt-7 md:text-xl">{site.hero.intro}</p>
+          <a
+            href="#kontakt"
+            class="group mt-8 inline-flex items-center gap-3 bg-accent px-9 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-accent-dark md:mt-9"
+          >
+            Kontakt aufnehmen
+            <span class="transition-transform group-hover:translate-x-1">→</span>
+          </a>
+        </div>
+
+        <div class="order-1 flex justify-center md:order-2 md:justify-end">
+          <div class="relative w-56 sm:w-64 md:w-[24rem]">
+            <!-- Organische Form (Foto-Rosa) hinter dem Foto -->
+            <svg
+              class="absolute top-1/2 left-1/2 h-[128%] w-[128%] -translate-x-1/2 -translate-y-1/2 text-photo"
+              viewBox="0 0 600 600" fill="currentColor" aria-hidden="true"
+            >
+              <path d="M431 96c58 42 116 92 134 158s2 148-37 207-105 109-178 119-159-8-219-54S26 408 30 333s56-145 110-194S373 54 431 96Z" />
+            </svg>
+            <!-- Foto: leicht organische Form, nach oben-links versetzt -->
+            <div class="relative aspect-square -translate-x-3 -translate-y-3 overflow-hidden rounded-[42%_58%_62%_38%_/_48%_42%_58%_52%] md:-translate-x-6 md:-translate-y-6">
+              <img src={site.heroImage} alt={site.heroImageAlt} class="h-full w-full object-cover object-[center_22%]" />
+            </div>
+          </div>
+        </div>
+      </Container>
+
+      <!-- Sanfter Scroll-Hinweis -->
+      <a
+        href="#leistungen" aria-label="Nach unten scrollen"
+        class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted transition-colors hover:text-coral sm:flex"
+      >
+        <span class="text-[0.7rem] font-bold uppercase tracking-[0.2em]">Scroll</span>
+        <svg class="scroll-cue h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </a>
+    </section>
+
+    <!-- ── Was ich mache ──────────────────────────────────── -->
+    <section id="leistungen" class="bg-surface py-20 md:py-28">
+      <Container>
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-coral" data-reveal>Leistungen</p>
+        <h2 class="mt-3 max-w-2xl text-4xl font-extrabold leading-tight tracking-tight md:text-5xl" data-reveal>
+          Was ich mache
+        </h2>
+        <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-3">
+          {site.services.map((s, i) => (
+            <div class="group bg-surface p-8 transition-colors hover:bg-bg" data-reveal>
+              <span class="num-outline block text-6xl font-extrabold leading-none tracking-tight">0{i + 1}</span>
+              <h3 class="mt-8 text-xl font-bold leading-snug">{s.title}</h3>
+              <p class="mt-4 leading-relaxed text-muted">{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+
+    <!-- ── Über mich ──────────────────────────────────────── -->
+    <section id="ueber-mich" class="py-20 md:py-28">
+      <Container class="grid gap-10 md:grid-cols-[1fr_2fr]">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-[0.18em] text-coral" data-reveal>Über mich</p>
+          <h2 class="mt-3 text-4xl font-extrabold leading-tight tracking-tight md:text-5xl" data-reveal>{site.about.title}</h2>
+        </div>
+        <p class="self-end text-2xl font-medium leading-snug tracking-tight md:text-3xl" data-reveal>{site.about.text}</p>
+      </Container>
+    </section>
+
+    <!-- ── Meine Arbeit (editorial 2-Spalten-Raster) ──────── -->
+    <section id="arbeit" class="bg-surface py-20 md:py-28">
+      <Container>
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-coral" data-reveal>Portfolio</p>
+        <h2 class="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl" data-reveal>Meine Arbeit</h2>
+        <div class="mt-16 grid gap-x-8 gap-y-20 md:grid-cols-2">
+          {site.work.map((w) => (
+            <a href={`/arbeit/${w.slug}`} class="group block" data-reveal>
+              <div class="relative aspect-[5/4] overflow-hidden border border-line bg-bg">
+                {w.image ? (
+                  <img
+                    src={w.image}
+                    alt={w.title}
+                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                ) : (
+                  <div class="flex h-full w-full items-center justify-center">
+                    <svg class="h-16 w-16 text-coral/45 transition-transform duration-500 group-hover:scale-110" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="13" y="9" width="38" height="46" rx="3" />
+                      <line x1="21" y1="23" x2="43" y2="23" />
+                      <line x1="21" y1="32" x2="43" y2="32" />
+                      <line x1="21" y1="41" x2="35" y2="41" />
+                    </svg>
+                  </div>
+                )}
+                <span class="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-coral transition-transform duration-500 group-hover:scale-x-100"></span>
+              </div>
+              <p class="mt-6 text-sm font-bold uppercase tracking-[0.16em] text-coral">{w.tag}</p>
+              <h3 class="mt-3 flex items-center gap-3 text-2xl font-bold leading-snug tracking-tight md:text-3xl">
+                {w.title}
+                <span class="text-coral opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">→</span>
+              </h3>
+            </a>
+          ))}
+        </div>
+      </Container>
+    </section>
+
+    <!-- ── Ausgewählte Kunden ─────────────────────────────── -->
+    <section id="kunden" class="py-20 md:py-28">
+      <Container>
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-coral" data-reveal>Vertrauen</p>
+        <h2 class="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl" data-reveal>Ausgewählte Kunden</h2>
+        <div class="mt-14 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-4">
+          {site.clients.map((c) => (
+            <div class="flex h-32 items-center justify-center bg-surface px-6">
+              {c.image
+                ? <img src={c.image} alt={c.name} class="max-h-12 max-w-full object-contain" />
+                : <span class="text-xl font-bold tracking-tight text-ink">{c.name}</span>}
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+
+    <!-- ── Kontakt (Web3Forms) – bold dark full-bleed ─────── -->
+    <section id="kontakt" class="bg-ink text-white">
+      <Container class="grid gap-14 py-20 md:grid-cols-2 md:py-28">
+        <!-- Statement -->
+        <div class="flex flex-col justify-between">
+          <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-coral">{site.contact.subtitle}</p>
+            <h2 class="mt-4 text-5xl font-extrabold leading-[0.95] tracking-tight md:text-7xl">
+              Lass uns<br />zusammen<br />arbeiten.
+            </h2>
+          </div>
+          <div class="mt-12 space-y-2 text-lg">
+            <a href={`mailto:${site.footer.email}`} class="block w-fit border-b border-white/30 pb-1 transition-colors hover:border-coral hover:text-coral">
+              {site.footer.email}
+            </a>
+            <a href={site.footer.linkedin} target="_blank" rel="noopener" class="block w-fit border-b border-white/30 pb-1 transition-colors hover:border-coral hover:text-coral">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <!-- Formular mit Underline-Inputs -->
+        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-8">
+          <input type="hidden" name="access_key" value={site.contact.web3formsKey} />
+          <input type="hidden" name="subject" value="Neue Nachricht über mie-heesch.de" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div>
+            <label class="text-xs font-bold uppercase tracking-[0.16em] text-white/50">Dein Name</label>
+            <input
+              type="text" name="name" required placeholder="Name eingeben"
+              class="mt-2 w-full border-b border-white/25 bg-transparent pb-3 text-lg outline-none transition-colors placeholder:text-white/35 focus:border-coral"
+            />
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase tracking-[0.16em] text-white/50">Deine E-Mail</label>
+            <input
+              type="email" name="email" required placeholder="name@mail.de"
+              class="mt-2 w-full border-b border-white/25 bg-transparent pb-3 text-lg outline-none transition-colors placeholder:text-white/35 focus:border-coral"
+            />
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase tracking-[0.16em] text-white/50">Deine Nachricht</label>
+            <textarea
+              name="message" rows="4" required placeholder="Worum geht es?"
+              class="mt-2 w-full resize-none border-b border-white/25 bg-transparent pb-3 text-lg outline-none transition-colors placeholder:text-white/35 focus:border-coral"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="group flex w-full items-center justify-center gap-3 bg-accent px-6 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-accent-dark"
+          >
+            Nachricht senden
+            <span class="transition-transform group-hover:translate-x-1">→</span>
+          </button>
+          <p id="form-status" class="text-sm text-white/60"></p>
+        </form>
+      </Container>
+    </section>
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────────────── -->
+  <footer class="bg-ink text-white">
+    <Container class="border-t border-white/10 py-12">
+      <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+        <p class="text-3xl font-extrabold tracking-tight md:text-4xl">{site.name}</p>
+        <div class="flex flex-wrap gap-x-10 gap-y-2 text-sm font-medium uppercase tracking-[0.1em] text-white/60">
+          <a href={site.footer.linkedin} class="hover:text-coral" target="_blank" rel="noopener">LinkedIn</a>
+          <a href={`mailto:${site.footer.email}`} class="hover:text-coral">Email</a>
+          <a href="/impressum" class="hover:text-coral">Impressum</a>
+          <a href="/datenschutz" class="hover:text-coral">Datenschutz</a>
+        </div>
+      </div>
+    </Container>
+  </footer>
+
+  <script>
+    // AJAX-Submit, damit der Besucher auf der Seite bleibt (kein Redirect).
+    const form = document.querySelector("form");
+    const status = document.getElementById("form-status");
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (status) status.textContent = "Wird gesendet …";
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: new FormData(form as HTMLFormElement),
+      });
+      if (res.ok) {
+        form.reset();
+        if (status) status.textContent = "Danke! Deine Nachricht wurde gesendet.";
+      } else if (status) {
+        status.textContent = "Etwas ist schiefgelaufen. Bitte versuche es erneut.";
+      }
+    });
+  </script>
+</Layout>
